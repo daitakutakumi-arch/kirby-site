@@ -1,90 +1,74 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<link rel="icon" href="kirbyicon.png">
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>カービィのワクワク世界！</title>
-<link rel="stylesheet" href="main.css" />
+    <link rel="icon" href="kirby_fanart.png" type="image/png">
+      
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カービィのファンサイト</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <h1>★ カービィのファンサイト ★</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">紹介</a></li>
+                <li><a href="#gallery">ギャラリー</a></li>
+                <li><a href="#message">メッセージ</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<!-- Loading Screen -->
-<div id="loadingWrap">
-  <div class="loader-card">
-    <div class="loader-kirby"><img src="kirby-cute.gif"></div>
-    <div class="loader-text">読み込み中…</div>
-    <div class="loader-sub">カービィが準備してるよ！</div>
-    <div class="suck-wrap"><div id="suckFill" class="suck-fill"></div></div>
-  </div>
-</div>
+    <main>
 
-<!-- Background Scene -->
-<div class="scene">
-  <div class="stars"></div>
-  <div class="warpstars"></div>
-  <div class="clouds"></div>
-  <div class="kirby-bubbles"></div>
-</div>
+        <section id="about" class="section">
+            <h2>🌈 カービィについて</h2>
+            <p>やさしくてまんまる、みんなを笑顔にする不思議なキャラクター。<br>
+                星の世界で楽しく冒険する姿が魅力です！</p>
+        </section>
 
-<header>
-  <div class="brand">
-    <a href="index.html">
-    <img src="kirbyicon.png" /></a>
-    <a href="index.html">
-    <h1>カービィのワクワク世界</h1></a>
-  </div>
-  <nav>
-    <ul>
-      <li><a class="pill hover-sfx">ホーム</a></li>
-      <li><a class="pill hover-sfx">キャラ</a></li>
-      <li><a class="pill hover-sfx">グッズ</a></li>
-      <li><a id="playTrailer" class="pill hover-sfx">トレーラー</a></li>
-    </ul>
-  </nav>
-</header>
+        <section id="gallery" class="section">
+            <h2>✨ ギャラリー</h2>
+            <img src="kirby_fanart.png" alt="カービィのイラスト">
+            <img src="kirby_fanart2.png" alt="カービィのイラスト">
 
-<main>
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-left">
-      <h2>カービィのワクワク世界へ！</h2>
-      <p>星のカービィシリーズの仲間たちが大集合。かわいさ120%のスペシャルページ！</p>
-      <div class="buttons">
-        <a class="pill hover-sfx">今すぐ見る</a>
-        <a class="pill hover-sfx">人気ランキング</a>
-      </div>
-    </div>
-    <div class="hero-right slider">
-      <div class="slides" id="slides">
-        <div class="slide"><img src="https://www.kirby.jp/img/title/discovery/ogp.jpg"></div>
-        <div class="slide"><img src="https://www.kirby.jp/img/title/allstar_allies/ogp.jpg"></div>
-        <div class="slide"><img src="https://www.kirby.jp/img/title/starallies/story.jpg"></div>
-      </div>
-      <div class="dots" id="dots"></div>
-    </div>
-  </section>
+            <section id="message" class="section">
+                <h2>💬 カービィとお話ししよう！</h2>
+                <p>↓ ボタンを押すとカービィが話してくれます！</p>
+            
+                <button id="talkBtn">カービィに話してもらう</button>
+                <p id="talkArea"></p>
+            </section>
+            
 
-  <!-- Characters -->
-  <h2 class="center" style="margin-top:40px;">キャラクター</h2>
-  <div id="charGrid" class="chars"></div>
+            <section id="comments" class="section">
+                <h2>💬 ファンコメント</h2>
+            
+                <div id="commentList"></div>
+            
+                <h3>コメントを投稿する</h3>
+                <input id="nameInput" type="text" placeholder="名前" /><br><br>
+                <textarea id="commentInput" rows="4" placeholder="コメントを書いてね"></textarea><br><br>
+            
+                <!-- 画像選択 -->
+                <input id="imgInput" type="file" accept="image/*"><br><br>
+            
+                <button id="sendComment">投稿する</button>
+                <p>＜注意＞画像は投稿できません</p>
+                <p>画像はこの端末でしか見れません</p>
+            </section>
 
-  <!-- Goods -->
-  <h2 class="center" style="margin-top:40px;">グッズ</h2>
-  <div class="goods"></div>
-</main>
+            
+            
+       
+        
 
-<!-- Modal -->
-<div class="modal" id="modal">
-  <div class="box">
-    <button id="closeModal" class="pill hover-sfx" style="float:right">閉じる</button>
-    <div id="modalBody"></div>
-  </div>
-</div>
+    </main>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
-
-<script src="main.js"></script>
+    <footer>
+        <p>※非公式ファンサイトです。任天堂・HAL研究所とは関係ありません。</p>
+    </footer>
+<script src="script.js"></script>
 </body>
 </html>

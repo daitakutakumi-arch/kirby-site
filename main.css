@@ -1,0 +1,105 @@
+/* Kirby Super Cute Remix - External CSS */
+:root{
+  --bg-1:#fff7fc;
+  --bg-2:#ffeef7;
+  --kirby-pink:#ff9fc9;
+  --accent:#ffd84a;
+  --soft-purple:#b08aed;
+  --card:#ffffff;
+  --glass:rgba(255,255,255,0.65);
+  --shadow: 0 10px 30px rgba(120,60,120,0.07);
+  --radius:22px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:'Nunito',system-ui,-apple-system,'Segoe UI','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#4a274b}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* Loading / Intro */
+#loadingWrap{position:fixed;left:0;top:0;width:100%;height:100%;z-index:9999;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#ffdff0 0%, #fff 60%)}
+.loader-card{width:320px;max-width:90%;background:linear-gradient(180deg,#fff,#fffefc);border-radius:28px;padding:26px;text-align:center;box-shadow:0 30px 60px rgba(128,40,120,0.12);border:6px solid rgba(255,221,230,0.8)}
+.loader-kirby{width:120px;height:120px;margin:0 auto;background-image:url('https://www.kirby.jp/img/characters/kirby.png');background-size:contain;background-repeat:no-repeat;position:relative}
+.loader-text{font-family:'Baloo 2',cursive;font-size:1.25rem;color:var(--kirby-pink);margin-top:12px}
+.loader-sub{font-size:0.9rem;color:#a05588;margin-top:6px}
+.suck-wrap{position:relative;width:100%;height:6px;margin-top:14px;background:linear-gradient(90deg,#ffd84a,#ffb6e6);border-radius:99px;overflow:hidden}
+.suck-fill{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,#fffdd0,#ffd84a);border-radius:99px;transition:width 900ms cubic-bezier(.2,.9,.3,1)}
+
+/* Header */
+header{position:sticky;top:8px;margin:18px auto 0;max-width:1200px;padding:8px 18px;background:linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0.55));border-radius:36px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
+.brand{display:flex;gap:12px;align-items:center}
+.brand img{width:64px;height:64px}
+.brand h1{font-family:'Baloo 2',cursive;font-size:1.2rem;margin:0;color:#6a2b5a}
+nav ul{display:flex;gap:10px;list-style:none;margin:0;padding:0}
+nav a{display:inline-block;padding:8px 14px;border-radius:16px;font-weight:600}
+nav a:hover{transform:translateY(-4px)}
+.cta{background:linear-gradient(90deg,var(--kirby-pink),#ff6fb3);color:white;box-shadow:0 8px 18px rgba(240,90,150,0.18)}
+
+/* Background anim */
+.scene{position:fixed;inset:0;z-index:0;pointer-events:none}
+.stars, .warpstars, .clouds, .kirby-bubbles{position:absolute;inset:0}
+.star{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.95);box-shadow:0 0 8px rgba(255,230,200,0.8)}
+.warp{position:absolute;width:28px;height:28px;background-image:url('https://raw.githubusercontent.com/ianpatrickcowan/kirby-assets/main/warp-star.png');background-size:contain;background-repeat:no-repeat;opacity:0.95}
+.cloud{position:absolute;width:260px;height:120px;background:linear-gradient(180deg,#fff,#fffdf2);border-radius:80px;filter:drop-shadow(0 8px 20px rgba(100,40,120,0.06))}
+.kirby-floating{position:absolute;width:48px;height:48px;background-image:url('https://www.kirby.jp/img/characters/kirby.png');background-size:contain;background-repeat:no-repeat}
+@keyframes twinkle{0%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}100%{opacity:.3;transform:scale(.8)}}
+.star{animation:twinkle 3s infinite ease-in-out}
+@keyframes floatLeft{0%{transform:translateX(120vw) translateY(0) rotate(0)}100%{transform:translateX(-20vw) translateY(-120vh) rotate(720deg)}}
+.warp{animation:floatLeft linear infinite}
+@keyframes cloudMove{0%{transform:translateX(-40vw)}100%{transform:translateX(100vw)}}
+.cloud{animation:cloudMove linear infinite}
+@keyframes kirbyHop{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+
+/* Main layout */
+main{position:relative;z-index:2;max-width:1200px;margin:28px auto;padding:18px}
+.hero{display:flex;gap:18px;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,250,255,0.85));padding:26px;border-radius:26px;box-shadow:var(--shadow);align-items:center}
+.hero-left{flex:1}
+.hero-right{width:320px}
+.hero h2{font-family:'Baloo 2',cursive;font-size:2.2rem;margin:0;color:var(--kirby-pink)}
+.hero p{margin:8px 0 18px;color:#7a3a6b}
+.hero .buttons{display:flex;gap:10px}
+.pill{display:inline-block;padding:10px 16px;border-radius:999px;background:var(--glass);border:2px dashed rgba(160,90,140,0.06);font-weight:700}
+.slider{position:relative;border-radius:18px;overflow:hidden}
+.slides{display:flex;transition:transform 550ms cubic-bezier(.2,.9,.3,1)}
+.slide{min-width:100%;padding:22px;background:linear-gradient(180deg,#fff,#fff9fb)}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.dot{width:10px;height:10px;border-radius:50%;background:#ffdfe8;opacity:.6}
+.dot.active{background:var(--kirby-pink);box-shadow:0 6px 14px rgba(255,120,170,0.2)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.card{background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--shadow);border:4px solid rgba(255,230,245,0.9)}
+.card h3{margin:6px 0;font-size:1.2rem;color:var(--soft-purple)}
+.card p{color:#6b3a64;font-size:0.95rem}
+
+.chars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.char{background:linear-gradient(180deg,#fff7ff,#fff);padding:12px;border-radius:18px;display:flex;flex-direction:column;align-items:center;gap:8px;border:3px solid rgba(255,220,245,0.9)}
+.char img{width:92px;height:92px;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(160,60,140,0.12))}
+.char h4{margin:0;font-size:1rem;color:#5b2b56}
+
+.goods{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.goods .product{border-radius:16px;padding:12px;background:linear-gradient(180deg,#fff,#fffaf8);text-align:center}
+.price{font-weight:800;color:var(--kirby-pink)}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(30,10,30,0.45);align-items:center;justify-content:center;padding:18px}
+.modal .box{background:linear-gradient(180deg,#fff,#fffdfd);padding:20px;border-radius:18px;max-width:720px;box-shadow:0 30px 80px rgba(0,0,0,0.25)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--accent);padding:10px 16px;border-radius:999px;font-weight:800;color:#6a2150;box-shadow:0 8px 30px rgba(150,30,120,0.12);display:none}
+
+/* Responsive */
+@media (max-width:1000px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .chars{grid-template-columns:repeat(3,1fr)}
+  .goods{grid-template-columns:repeat(2,1fr)}
+  header{padding:10px}
+}
+@media (max-width:640px){
+  header{flex-direction:column;gap:10px}
+  .hero{flex-direction:column}
+  .hero-right{width:100%}
+  .grid{grid-template-columns:1fr}
+  .chars{grid-template-columns:repeat(2,1fr)}
+  .goods{grid-template-columns:1fr}
+  .char img{width:84px;height:84px}
+}
+
+/* helpers */
+.muted{color:#9a6a98;font-size:0.9rem}
+.center{text-align:center}

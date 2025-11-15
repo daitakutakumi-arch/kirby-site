@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <link rel="icon" href="favicon.png" type="image/png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>カービィファンサイト</title>
+  <style>
+    body {
+      background:#fff;
+      margin:0;
+      font-family:"Segoe UI",sans-serif;
+      padding-top:90px;
+    }
+    header {
+      position:fixed;
+      top:0; left:0;
+      width:100%;
+      background:pink;
+      padding:20px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      z-index:1000;
+      transition: padding 0.25s, background 0.25s;
+    }
+    header.shrink {
+      padding:6px 20px;
+      background:#ffb6d9;
+    }
+    nav a {
+      margin-left:0px;
+      color:#222;
+      text-decoration:none;
+      font-weight:600;
+    }
+    main {
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px;
+    }
+    .card {
+      position:relative;
+      z-index:5;
+      background:#f7f7f9;
+      padding:20px;
+      border-radius:14px;
+      margin-top:40px;
+    }
+    form label { display:block; margin-top:10px; }
+    form input, form textarea, form select {
+      width:100%;
+      padding:8px;
+      margin-top:6px;
+      border:1px solid #ccc;
+      border-radius:8px;
+    }
+    .btn {
+      background:#ff6fa7;
+      padding:10px 14px;
+      border:none;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:12px;
+    }
+    .post {
+      background:#fff;
+      border:1px solid #ddd;
+      padding:12px;
+      border-radius:8px;
+      margin-bottom:10px;
+    }
+    .gallery-img {
+      width:160px;
+      height:160px;
+      object-fit:cover;
+      border-radius:12px;
+      margin:6px;
+    }
+
+    .guide-link {
+  display:inline-block;
+  background:#ff6fa7;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:700;
+  transition:0.2s;
+}
+
+.guide-link:hover {
+  background:#ff8abd;
+  transform:translateY(-2px);
+}
+
+  </style>
+</head>
+<body>
+<header>
+  <div style="font-size:20px; font-weight:bold;">カービィファンサイト</div>
+  <span id="clock" style="font-weight:bold;"></span>
+  <nav>
+    <a href="#fanFormArea">投稿フォーム</a>
+    <a href="#fanArtArea">ファンアート</a>
+  </nav>
+  <div id="currentTime" class="text-sm font-bold"></div>
+</header>
+
+<main>
+  <section class="card" id="siteDescription">
+    <h3>このサイトについて</h3>
+    <p>ここはカービィが大好きなファンのための交流サイトです！<br>
+    最新情報の確認、ファンアートの投稿、みんなのコメント閲覧などができます。</p>
+  </section>
+  <section class="card" id="newsArea">
+    <h3>最新情報</h3>
+    <a href="https://www.kirby.jp/news/" style="position:relative; z-index:5; display:inline-block; background:#ff6fa7; padding:8px 14px; border-radius:10px; color:#fff; font-weight:bold; text-decoration:none; margin-bottom:12px;" target="_blank" style="display:inline-block; background:#ff6fa7; padding:8px 14px; border-radius:10px; color:#fff; font-weight:bold; text-decoration:none; margin-bottom:12px;">公式サイトの最新情報を見る</a>
+  </section>
+
+  <!-- みんなの投稿を最初に表示 -->
+  <section class="card">
+    <h3>みんなの投稿</h3>
+    <div id="submissionsList"></div>
+  </section>
+
+  <!-- ファン投稿フォーム（ページ下） -->
+  <section class="card" id="fanFormArea">
+    <h3>ファン投稿フォーム</h3>
+    <label>GitHub トークン（保存しません）<input type="password" id="gh_token"></label>
+    <form id="fanForm">
+      <label>名前<input name="name" type="text"></label>
+      <label>カテゴリー<select name="category"><option>ファンアート</option><option>感想</option></select></label>
+      <label>コメント<textarea name="comment" rows="4"></textarea></label>
+      <label>画像URL<input name="image" type="url"></label>
+      <button class="btn" type="submit">送信</button>
+    </form>
+    <div id="formMessage"></div>
+  </section>
+
+  <!-- ファンアート投稿（さらに下） -->
+  <section class="card" id="fanArtArea">
+    <h3>ファンアート投稿（画像アップロード）</h3>
+    <label>画像を選択<input type="file" id="fanartFile" accept="image/*"></label>
+    <button class="btn" id="fanartUpload">アップロード</button>
+    
+    <h3 style="margin-top:20px;">ギャラリー</h3>
+    <div id="gallery" style="display:flex; flex-wrap:wrap;"></div>
+  </section>
+
+</main>
+
+<script>
+// ---------------------------
+// 時計
+// ---------------------------
+function updateClock() {
+  const now = new Date();
+  const w = ["日","月","火","水","木","金","土"][now.getDay()];
+  const text = `${now.toLocaleDateString()} (${w}) ${now.toLocaleTimeString()}`;  
+  document.getElementById("clock").textContent = text;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+
+
+// ---------------------------
+// スクロールでヘッダー縮小
+// ---------------------------
+window.addEventListener("scroll", () => {
+  const header = document.querySelector("header");
+  if (window.scrollY > 30) header.classList.add("shrink");
+  else header.classList.remove("shrink");
+});
+</script>
+<a class="guide-link" href="guide.html" target="_blank">投稿者向けガイド</a>
+
+
+</body>
+</html>

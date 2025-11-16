@@ -1,182 +1,316 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-    <link rel="icon" href="favicon.png" type="image/png">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>カービィファンサイト</title>
+  <link rel="icon" href="kirby_icon.png" type="image/png">
   <style>
     body {
-      background:#fff;
-      margin:0;
-      font-family:"Segoe UI",sans-serif;
-      padding-top:90px;
+      font-family: "Yu Gothic", sans-serif;
+      margin: 0;
+      padding-top: 130px;
+      background: #ffe6f2;
+      background: #ffe6f2 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><text x="2" y="14" font-size="10" fill="pink">★</text></svg>') repeat;
+      color: #333;
     }
+
     header {
-      position:fixed;
-      top:0; left:0;
-      width:100%;
-      background:pink;
-      padding:20px 20px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      z-index:1000;
-      transition: padding 0.25s, background 0.25s;
-    }
-    header.shrink {
-      padding:6px 20px;
-      background:#ffb6d9;
-    }
-    nav a {
-      margin-left:0px;
-      color:#222;
-      text-decoration:none;
-      font-weight:600;
-    }
-    main {
-      max-width:1100px;
-      margin:0 auto;
-      padding:18px;
-    }
-    .card {
-      position:relative;
-      z-index:5;
-      background:#f7f7f9;
-      padding:20px;
-      border-radius:14px;
-      margin-top:40px;
-    }
-    form label { display:block; margin-top:10px; }
-    form input, form textarea, form select {
-      width:100%;
-      padding:8px;
-      margin-top:6px;
-      border:1px solid #ccc;
-      border-radius:8px;
-    }
-    .btn {
-      background:#ff6fa7;
-      padding:10px 14px;
-      border:none;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-      margin-top:12px;
-    }
-    .post {
-      background:#fff;
-      border:1px solid #ddd;
-      padding:12px;
-      border-radius:8px;
-      margin-bottom:10px;
-    }
-    .gallery-img {
-      width:160px;
-      height:160px;
-      object-fit:cover;
-      border-radius:12px;
-      margin:6px;
+      background: #ff9ad5;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.35s ease;
     }
 
-    .guide-link {
-  display:inline-block;
-  background:#ff6fa7;
-  color:#fff;
-  padding:10px 16px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:700;
-  transition:0.2s;
-}
+    #currentTime {
+      font-size: 1rem;
+      display: block;
+      margin-top: 5px;
+    }
 
-.guide-link:hover {
-  background:#ff8abd;
-  transform:translateY(-2px);
-}
+    nav {
+      background: #ffd3ec;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      transition: all 0.35s ease;
+    }
 
+    section {
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    /* ギャラリー */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .gallery img {
+      width: 100%;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    /* モーダル */
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    #modal img {
+      width: 80%;
+      max-width: 600px;
+      border-radius: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #ffd3ec;
+      margin-top: 40px;
+    }
+
+    /* カービィバルーン */
+    #kirby-talk-box {
+      margin-top: 40px;
+      text-align: center;
+    }
+    #kirby-bubble {
+      margin: 10px auto 0;
+      background: white;
+      padding: 10px;
+      display: none;
+      width: fit-content;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
 <body>
+
 <header>
-  <div style="font-size:20px; font-weight:bold;">カービィファンサイト</div>
-  <span id="clock" style="font-weight:bold;"></span>
-  <nav>
-    <a href="#fanFormArea">投稿フォーム</a>
-    <a href="#fanArtArea">ファンアート</a>
-  </nav>
-  <div id="currentTime" class="text-sm font-bold"></div>
+  <div>星のカービィ ファンサイト</div>
+  <span id="currentTime"></span>
 </header>
 
-<main>
-  <section class="card" id="siteDescription">
-    <h3>このサイトについて</h3>
-    <p>ここはカービィが大好きなファンのための交流サイトです！<br>
-    最新情報の確認、ファンアートの投稿、みんなのコメント閲覧などができます。</p>
-  </section>
-  <section class="card" id="newsArea">
-    <h3>最新情報</h3>
-    <a href="https://www.kirby.jp/news/" style="position:relative; z-index:5; display:inline-block; background:#ff6fa7; padding:8px 14px; border-radius:10px; color:#fff; font-weight:bold; text-decoration:none; margin-bottom:12px;" target="_blank" style="display:inline-block; background:#ff6fa7; padding:8px 14px; border-radius:10px; color:#fff; font-weight:bold; text-decoration:none; margin-bottom:12px;">公式サイトの最新情報を見る</a>
-  </section>
+<nav></nav>
 
-  <!-- みんなの投稿を最初に表示 -->
-  <section class="card">
-    <h3>みんなの投稿</h3>
-    <div id="submissionsList"></div>
-  </section>
+<section id="news" style="background:#fff0fb;padding:30px 40px;max-width:900px;margin:20px auto;border-radius:15px;box-shadow:0 0 10px #0001;">
+  <h2>最新情報</h2>
+  <p></p>
+  <a href="https://www.kirby.jp/" target="_blank" style="display:inline-block;margin-top:15px;padding:10px 20px;background:#ff62b0;color:white;border-radius:10px;text-decoration:none;font-weight:bold;">公式サイトへ</a>
+</section>
 
-  <!-- ファン投稿フォーム（ページ下） -->
-  <section class="card" id="fanFormArea">
-    <h3>ファン投稿フォーム</h3>
-    <label>GitHub トークン（保存しません）<input type="password" id="gh_token"></label>
-    <form id="fanForm">
-      <label>名前<input name="name" type="text"></label>
-      <label>カテゴリー<select name="category"><option>ファンアート</option><option>感想</option></select></label>
-      <label>コメント<textarea name="comment" rows="4"></textarea></label>
-      <label>画像URL<input name="image" type="url"></label>
-      <button class="btn" type="submit">送信</button>
-    </form>
-    <div id="formMessage"></div>
-  </section>
+<section id="gallery">
+  <h2>ギャラリー</h2>
+  <p>写真が追加できるよ（このデバイスでしか見れないよ）</p>
+  <div class="gallery"></div>
 
-  <!-- ファンアート投稿（さらに下） -->
-  <section class="card" id="fanArtArea">
-    <h3>ファンアート投稿（画像アップロード）</h3>
-    <label>画像を選択<input type="file" id="fanartFile" accept="image/*"></label>
-    <button class="btn" id="fanartUpload">アップロード</button>
-    
-    <h3 style="margin-top:20px;">ギャラリー</h3>
-    <div id="gallery" style="display:flex; flex-wrap:wrap;"></div>
-  </section>
+  <h3>画像を追加する</h3>
+  <input type="file" id="addImage" accept="image/*" />
+  <button id="addBtn">追加</button>
+  <div id="addResult" style="margin-top:10px;color:#c20072"></div>
+</section>
 
-</main>
+<section id="fanpost">
+  <h2>感想コーナー</h2>
+  <p>カービィについて思ったことなどを保存できるよ（このデバイスでしか見れないよ）</p>
+
+  <form id="postForm">
+    <label>日付：</label>
+    <input type="date" id="name" required />
+
+    <label>感想：</label>
+    <textarea id="message" rows="4" required></textarea>
+
+    <button type="submit">送信</button>
+  </form>
+
+  <div id="postResult" style="margin-top:20px;"></div>
+</section>
+
+<!-- カービィのしゃべるコーナー（ページ一番下） -->
+<div id="kirby-talk-box">
+  <img src="data:image/png;base64,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" width="120" id="kirby">
+  <div id="kirby-bubble">こんにちは！カービィだよ！</div>
+</div>
+
+<!-- モーダル -->
+<div id="modal">
+  <img id="modalImg" />
+</div>
+
+<footer>
+  © 星のカービィ ファンページ（非公式）
+</footer>
 
 <script>
-// ---------------------------
-// 時計
-// ---------------------------
-function updateClock() {
-  const now = new Date();
-  const w = ["日","月","火","水","木","金","土"][now.getDay()];
-  const text = `${now.toLocaleDateString()} (${w}) ${now.toLocaleTimeString()}`;  
-  document.getElementById("clock").textContent = text;
-}
-setInterval(updateClock, 1000);
-updateClock();
+  // ------------------------
+  // 時計（秒まで）
+  // ------------------------
+  function updateTime() {
+    const now = new Date();
+    const t = now.toLocaleString("ja-JP", {
+      hour12: false,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+    document.getElementById("currentTime").textContent = t;
+  }
+  setInterval(updateTime, 1000);
+  updateTime();
 
-
-
-// ---------------------------
-// スクロールでヘッダー縮小
-// ---------------------------
-window.addEventListener("scroll", () => {
+  // ------------------------
+  // スクロールでヘッダー縮小
+  // ------------------------
   const header = document.querySelector("header");
-  if (window.scrollY > 30) header.classList.add("shrink");
-  else header.classList.remove("shrink");
-});
-</script>
-<a class="guide-link" href="guide.html" target="_blank">投稿者向けガイド</a>
+  const nav = document.querySelector("nav");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      header.style.padding = "10px";
+      header.style.fontSize = "1.4rem";
+      nav.style.top = "50px";
+    } else {
+      header.style.padding = "20px";
+      header.style.fontSize = "1.8rem";
+      nav.style.top = "70px";
+    }
+  });
 
+  // ------------------------
+  // ギャラリー保存・読み込み
+  // ------------------------
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modalImg");
+  const gallery = document.querySelector(".gallery");
+  const addBtn = document.getElementById("addBtn");
+  const addImage = document.getElementById("addImage");
+  const addResult = document.getElementById("addResult");
+
+  function loadGallery() {
+    const saved = JSON.parse(localStorage.getItem("galleryImages") || "[]");
+    saved.forEach(src => addImageToGallery(src));
+  }
+
+  function saveGallery() {
+    const images = [...gallery.querySelectorAll("img")].map(img => img.src);
+    localStorage.setItem("galleryImages", JSON.stringify(images));
+  }
+
+  function addImageToGallery(src) {
+    const img = document.createElement("img");
+    img.src = src;
+    img.addEventListener("click", () => {
+      modalImg.src = img.src;
+      modal.style.display = "flex";
+    });
+    gallery.appendChild(img);
+  }
+
+  addBtn.addEventListener("click", () => {
+    const file = addImage.files[0];
+    if (!file) {
+      addResult.textContent = "画像ファイルを選んでください。";
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      addImageToGallery(e.target.result);
+      saveGallery();
+      addResult.style.color = "green";
+      addResult.textContent = "ギャラリーに追加・保存しました！";
+      addImage.value = "";
+    };
+    reader.readAsDataURL(file);
+  });
+
+  modal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // ------------------------
+  // 感想保存
+  // ------------------------
+  function loadComments() {
+    const saved = JSON.parse(localStorage.getItem("comments") || "[]");
+    saved.forEach(c => displayComment(c.date, c.message));
+  }
+
+  function saveComment(date, message) {
+    const saved = JSON.parse(localStorage.getItem("comments") || "[]");
+    saved.push({ date, message });
+    localStorage.setItem("comments", JSON.stringify(saved));
+  }
+
+  function displayComment(date, message) {
+    postResult.innerHTML += `<p><strong>${date}</strong></p>
+      <div style="background:#ffe2f3;padding:10px;border-radius:10px;margin-bottom:10px;">${message}</div>`;
+  }
+
+  postForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const date = document.getElementById("name").value;
+    const message = document.getElementById("message").value;
+
+    displayComment(date, message);
+    saveComment(date, message);
+    e.target.reset();
+  });
+
+  loadGallery();
+  loadComments();
+
+  // ------------------------
+  // カービィがしゃべる
+  // ------------------------
+  const kirby = document.getElementById("kirby");
+  const bubble = document.getElementById("kirby-bubble");
+
+  const messages = [
+    "ぷぷぷっ！元気〜？",
+    "あそぼうよ〜！",
+    "えへへ♪",
+    "ぽよー！",
+    "ぽよぽよー！"
+  ];
+
+  kirby.addEventListener("click", () => {
+    bubble.innerText = messages[Math.floor(Math.random() * messages.length)];
+    bubble.style.display = "block";
+    setTimeout(() => {
+      bubble.style.display = "none";
+    }, 2300);
+  });
+</script>
 
 </body>
 </html>
